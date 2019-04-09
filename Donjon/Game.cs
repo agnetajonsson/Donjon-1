@@ -7,7 +7,8 @@ namespace Donjon
         private Map map;
         private Hero hero;
 
-        public void Run() {
+        public void Run()
+        {
             Initialize();
             Play();
         }
@@ -20,17 +21,40 @@ namespace Donjon
             hero = new Hero(heroCell);
 
             map.Creatures.Add(hero);
+            map.Creatures.Add(new Creature(map.GetCell(7, 8)));
         }
 
         private void Play()
         {
             // better as field?
-            bool gameInProgress = false;
+            bool gameInProgress = true;
 
             do
             {
                 Draw();
                 // get command from user
+                var key = UI.GetKey();
+
+                switch (key)
+                {
+                    case ConsoleKey.UpArrow:
+                        MoveHero(new Position(0, -1));
+                        break;
+                    case ConsoleKey.DownArrow:
+                        MoveHero(new Position(0, 1));
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        MoveHero(new Position(-1, 0));
+                        break;
+                    case ConsoleKey.RightArrow:
+                        MoveHero(new Position(1, 0));
+                        break;
+                    case ConsoleKey.Q:
+                        gameInProgress = false;
+                        break;
+                }
+
+
                 // execute action
                 Draw();
                 // update game objects
@@ -38,36 +62,18 @@ namespace Donjon
             Draw();
         }
 
+        private void MoveHero(Position movement)
+        {
+            var newPosition = hero.Cell.Position + movement;
+            Cell targetCell = map.GetCell(newPosition);
+            if (targetCell != null && targetCell.Creature == null) hero.Cell = targetCell;
+        }
+
         private void Draw()
         {
-            // view.Clear()
-            Console.Clear();
-
-            // view.Draw(map)
-            for (int y = 0; y < map.Height; y++)
-            {
-                for (int x = 0; x < map.Width; x++)
-                {
-                    Cell cell  = map.GetCell(x, y);
-
-                    IDrawable drawable = cell;                         
-
-                    // Creature at this position?
-                    // Better implemented as 
-                    //   cell.Creature ?? cell
-                    foreach (var creature in map.Creatures) {
-                        if (creature.Cell == cell) {
-                            drawable = creature;
-                            break;
-                        }
-                    }
-
-                    Console.ForegroundColor = drawable.Color;
-                    Console.Write(" " + drawable.Symbol);
-                }
-                Console.WriteLine();
-            }
-            Console.ForegroundColor = ConsoleColor.White;
+            UI.Clear();
+            UI.Draw(map);
+            UI.SetColor(ConsoleColor.White);
         }
     }
 }

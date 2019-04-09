@@ -2,9 +2,9 @@
 
 namespace Donjon
 {
-    internal abstract class Creature : IDrawable
+    internal class Creature : IDrawable
     {
-        public string Symbol => "H";
+        public string Symbol { get; set; } = "C";
         public ConsoleColor Color => ConsoleColor.Cyan;
         public Cell Cell { get; set; }
 
