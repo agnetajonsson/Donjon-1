@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Donjon.Entities;
+using Donjon.Utilities;
+using Donjon.World;
+using System;
+using System.Linq;
 
 namespace Donjon
 {
@@ -22,6 +26,14 @@ namespace Donjon
 
             map.Creatures.Add(hero);
             map.Creatures.Add(new Creature(map.GetCell(7, 8)));
+
+            map.GetCell(5, 8).Items.Add(Item.DirtySock());
+            map.GetCell(2, 3).Items.Add(Item.MundaneRock ());
+            map.GetCell(2, 3).Items.Add(Item.Coin());
+            map.GetCell(2, 6).Items.Add(Item.Coin());
+            map.GetCell(5, 2).Items.Add(Item.Coin());
+            map.GetCell(1, 1).Items.Add(Item.Coin());
+            map.GetCell(8, 8).Items.Add(Item.Coin());
         }
 
         private void Play()
@@ -52,6 +64,12 @@ namespace Donjon
                     case ConsoleKey.Q:
                         gameInProgress = false;
                         break;
+                    case ConsoleKey.P:
+                        PickUp();
+                        break;
+                    case ConsoleKey.I:
+                        Inventory();
+                        break;
                 }
 
 
@@ -60,6 +78,22 @@ namespace Donjon
                 // update game objects
             } while (gameInProgress);
             Draw();
+        }
+
+        private void Inventory()
+        {
+            foreach (var item in hero.Backpack)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        private void PickUp()
+        {
+            var items = hero.Cell.Items;
+            var item = items.FirstOrDefault();
+            if (item == null) return;            
+            if (hero.Backpack.Add(item)) items.Remove(item);
         }
 
         private void MoveHero(Position movement)

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Donjon.World;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Donjon
@@ -7,9 +9,9 @@ namespace Donjon
     static class UI
     {
         public static void Clear() {
-            //Console.Clear();
-            Console.SetCursorPosition(0, 0);
             Console.CursorVisible = false;
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);            
         }
 
         public static ConsoleKey GetKey() {
@@ -27,7 +29,7 @@ namespace Donjon
                 for (int x = 0; x < map.Width; x++)
                 {
                     Cell cell = map.GetCell(x, y);
-                    IDrawable drawable = (IDrawable)cell.Creature ?? cell;
+                    IDrawable drawable = cell.Creature ?? cell.Items.FirstOrDefault() ?? (IDrawable)cell;
 
                     //foreach (var creature in map.Creatures)
                     //{

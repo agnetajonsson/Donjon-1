@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Donjon.World;
+using System;
 
-namespace Donjon
+namespace Donjon.Entities
 {
     internal class Creature : IDrawable
     {
@@ -12,6 +13,5 @@ namespace Donjon
         {
             Cell = cell;
         }
-
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Donjon
+namespace Donjon.Utilities
 {
     struct Position
     {
@@ -15,13 +15,13 @@ namespace Donjon
             Y = y;
         }
 
-        public static Position operator +(Position p1, Position p2) => 
+        public static Position operator +(Position p1, Position p2) =>
             new Position(p1.X + p2.X, p1.Y + p2.Y);
 
-        public static Position operator -(Position p) => 
+        public static Position operator -(Position p) =>
             new Position(-p.X, -p.Y);
 
-        public static Position operator -(Position p1, Position p2) => 
-            p1 + (-p2);
+        public static Position operator -(Position p1, Position p2) =>
+            p1 + -p2;
     }
 }

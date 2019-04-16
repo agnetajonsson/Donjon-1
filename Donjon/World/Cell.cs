@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Donjon.Entities;
+using Donjon.Utilities;
+using Donjon.World;
+using System;
 using System.Collections.Generic;
 
-namespace Donjon
+namespace Donjon.World
 {
     internal class Cell : IDrawable
     {
@@ -12,9 +15,6 @@ namespace Donjon
 
         public List<Item> Items { get; } = new List<Item>();
 
-        // get the actual Creature from 
-        //   map.Creature.SingleOrDefault(c => c.Cell == this)
-        // Inject as lambda
         public Creature Creature => map.GetCreatureAt(this);
 
         public Position Position { get; }
